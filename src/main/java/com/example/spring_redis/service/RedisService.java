@@ -5,7 +5,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +36,14 @@ public class RedisService {
 
     public Object getObject(String key) {
         return redisTemplate.opsForValue().get(key);
+    }
+
+    public Object getAllTests(String keyPrefix) {
+        Set<String> keys = stringRedisTemplate.keys(keyPrefix + "-*");
+        Map<String, String> keyValue = new LinkedHashMap<>();
+        assert keys != null;
+        keys.forEach(key -> keyValue.put(key, stringRedisTemplate.opsForValue().get(key)));
+        return keyValue;
     }
 
 

@@ -40,4 +40,9 @@ public class RedisController {
     public void setTest(String key, String value) {
         redisService.setString(TestPrefix + key + LocalDateTime.now().format(TestSuffix), value);
     }
+
+    @GetMapping("search")
+    public Object getTests(String keyPrefix) {
+        return redisService.getAllTests(keyPrefix);
+    }
 }
