@@ -12,16 +12,23 @@ public class RedisController {
 
     private final RedisService redisService;
 
-    @PostMapping
-    public String setString(@RequestParam Map<String, String> map) {
+    @PostMapping("string/multi")
+    public Object setStrings(@RequestBody Map<String, String> map) {
         // map에 있는 모든 내용 리턴
-        return map.toString();
+        redisService.setStrings(map);
+        return map;
     }
 
-    @PostMapping("object")
-    public Object setObject(String key, @RequestBody Object value) {
-        // value의 모든 내용 리턴
-        redisService.setObject(key, value);
-        return value;
+    @PostMapping
+    public Object setObjects(@RequestBody Map<String, Object> map) {
+        // map의 모든 내용을 저장
+        redisService.setObjects(map);
+
+        return map;
+    }
+
+    @GetMapping
+    public Object getObject(@RequestParam String key) {
+        return redisService.getObject(key);
     }
 }
