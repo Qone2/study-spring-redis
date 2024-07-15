@@ -4,12 +4,16 @@ import com.example.spring_redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 public class RedisController {
 
+    private final String TestPrefix = "TEST-";
+    private final DateTimeFormatter TestSuffix = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private final RedisService redisService;
 
     @PostMapping("string/multi")
@@ -30,5 +34,10 @@ public class RedisController {
     @GetMapping
     public Object getObject(@RequestParam String key) {
         return redisService.getObject(key);
+    }
+
+    @PostMapping("test")
+    public void setTest(String key, String value) {
+        redisService.setString(TestPrefix + key + LocalDateTime.now().format(TestSuffix), value);
     }
 }
