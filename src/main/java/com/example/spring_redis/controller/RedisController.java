@@ -47,4 +47,10 @@ public class RedisController {
     public Object searchStrings(String keyPrefix) {
         return redisService.searchAllStrings(keyPrefix);
     }
+
+    @PostMapping("expire")
+    public Object setObjectAndExpire(@RequestParam String key, @RequestParam long time, @RequestBody Object value) {
+        redisService.setObjectAndExpire(key, value, time);
+        return value;
+    }
 }

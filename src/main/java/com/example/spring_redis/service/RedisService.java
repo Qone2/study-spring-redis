@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -54,6 +55,10 @@ public class RedisService {
 
     public void deleteObject(String key) {
         redisTemplate.opsForValue().getAndDelete(key);
+    }
+
+    public void setObjectAndExpire(String key, Object value, long timeSeconds) {
+        redisTemplate.opsForValue().set(key, value, timeSeconds, TimeUnit.SECONDS);
     }
 
 
