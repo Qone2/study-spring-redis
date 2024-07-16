@@ -27,6 +27,12 @@ public class RedisController {
         return map;
     }
 
+    @DeleteMapping
+    public String deleteObject(@RequestParam String key) {
+        redisService.deleteObject(key);
+        return "delete 성공";
+    }
+
     @GetMapping
     public Object getObject(@RequestParam String key) {
         return redisService.getObject(key);

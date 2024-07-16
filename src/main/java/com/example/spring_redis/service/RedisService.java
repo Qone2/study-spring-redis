@@ -52,5 +52,9 @@ public class RedisService {
         return keyValue;
     }
 
+    public void deleteObject(String key) {
+        redisTemplate.opsForValue().getAndDelete(key);
+    }
+
 
 }
