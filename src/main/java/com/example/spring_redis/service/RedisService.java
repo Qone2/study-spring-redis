@@ -5,14 +5,16 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class RedisService {
+
+    private final String TestPrefix = "TEST-";
+    private final DateTimeFormatter TestSuffix = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -36,6 +38,10 @@ public class RedisService {
 
     public Object getObject(String key) {
         return redisTemplate.opsForValue().get(key);
+    }
+
+    public void setTest(String key, String value) {
+        setString(TestPrefix + key + LocalDateTime.now().format(TestSuffix), value);
     }
 
     public Object getAllTests(String keyPrefix) {

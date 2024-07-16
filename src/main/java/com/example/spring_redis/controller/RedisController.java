@@ -12,8 +12,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class RedisController {
 
-    private final String TestPrefix = "TEST-";
-    private final DateTimeFormatter TestSuffix = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     private final RedisService redisService;
 
     @PostMapping("string/multi")
@@ -38,7 +36,7 @@ public class RedisController {
 
     @PostMapping("test")
     public void setTest(String key, String value) {
-        redisService.setString(TestPrefix + key + LocalDateTime.now().format(TestSuffix), value);
+        redisService.setTest(key, value);
     }
 
     @GetMapping("search")
