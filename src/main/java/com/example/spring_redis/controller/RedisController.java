@@ -4,8 +4,6 @@ import com.example.spring_redis.service.RedisService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 @RestController
@@ -40,7 +38,7 @@ public class RedisController {
     }
 
     @GetMapping("search")
-    public Object getTests(String keyPrefix) {
-        return redisService.getAllTests(keyPrefix);
+    public Object searchStrings(String keyPrefix) {
+        return redisService.searchAllStrings(keyPrefix);
     }
 }

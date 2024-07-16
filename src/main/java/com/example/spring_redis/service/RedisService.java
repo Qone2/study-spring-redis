@@ -44,7 +44,7 @@ public class RedisService {
         setString(TestPrefix + key + LocalDateTime.now().format(TestSuffix), value);
     }
 
-    public Object getAllTests(String keyPrefix) {
+    public Object searchAllStrings(String keyPrefix) {
         Set<String> keys = stringRedisTemplate.keys(keyPrefix + "-*");
         Map<String, String> keyValue = new LinkedHashMap<>();
         assert keys != null;
