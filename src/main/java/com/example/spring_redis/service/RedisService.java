@@ -1,6 +1,8 @@
 package com.example.spring_redis.service;
 
+import com.example.spring_redis.config.TestRedisSerializer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,13 @@ public class RedisService {
     private final String TestPrefix = "TEST-";
     private final DateTimeFormatter TestSuffix = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
 
+    @Qualifier("redisTemplate")
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final StringRedisTemplate stringRedisTemplate;
+
+    @Qualifier("testRedisTemplate")
+    private final RedisTemplate<String, Object> testRedisTemplate;
 
     public void setObjects(Map<String, Object> map) {
         redisTemplate.opsForValue().multiSet(map);
@@ -43,6 +49,10 @@ public class RedisService {
 
     public void setTest(String key, String value) {
         setString(TestPrefix + key + LocalDateTime.now().format(TestSuffix), value);
+    }
+
+    public void setTestV2(String key, Object value) {
+        testRedisTemplate.opsForValue().set(key, value);
     }
 
     public Object searchAllStrings(String keyPrefix) {

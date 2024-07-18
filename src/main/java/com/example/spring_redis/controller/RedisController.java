@@ -53,4 +53,9 @@ public class RedisController {
         redisService.setObjectAndExpire(key, value, time);
         return value;
     }
+
+    @PostMapping("testV2")
+    public void setTestV2(String key, Object value) {
+        redisService.setTestV2(key, value);
+    }
 }
