@@ -55,10 +55,6 @@ public class RedisService {
         testRedisTemplate.opsForValue().set(key, value);
     }
 
-//    public Object getTestV2(String key) {
-//        testRedisTemplate.opsForValue();
-//    }
-
     public Object searchAllStrings(String keyPrefix) {
         Map<String, Object> keyValues = new LinkedHashMap<>();
         Set<String> keys = redisTemplate.keys(keyPrefix + "-*");
