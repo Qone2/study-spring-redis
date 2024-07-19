@@ -47,20 +47,29 @@ public class RedisService {
         return redisTemplate.opsForValue().get(key);
     }
 
-    public void setTest(String key, String value) {
-        setString(TestPrefix + key + LocalDateTime.now().format(TestSuffix), value);
+    public void setTest(String key, Object value) {
+        setObject(TestPrefix + key + LocalDateTime.now().format(TestSuffix), value);
     }
 
     public void setTestV2(String key, Object value) {
         testRedisTemplate.opsForValue().set(key, value);
     }
 
+//    public Object getTestV2(String key) {
+//        testRedisTemplate.opsForValue();
+//    }
+
     public Object searchAllStrings(String keyPrefix) {
-        Set<String> keys = stringRedisTemplate.keys(keyPrefix + "-*");
-        Map<String, String> keyValue = new LinkedHashMap<>();
+        Map<String, Object> keyValues = new LinkedHashMap<>();
+        Set<String> keys = redisTemplate.keys(keyPrefix + "-*");
         assert keys != null;
-        keys.forEach(key -> keyValue.put(key, stringRedisTemplate.opsForValue().get(key)));
-        return keyValue;
+        ArrayList<String> keyList = new ArrayList<>(keys);
+        List<Object> values = redisTemplate.opsForValue().multiGet(keyList);
+        for (int i = 0; i < keyList.size(); i++) {
+            assert values != null;
+            keyValues.put(keyList.get(i), values.get(i));
+        }
+        return keyValues;
     }
 
     public void deleteObject(String key) {
