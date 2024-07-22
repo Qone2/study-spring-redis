@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -14,7 +15,12 @@ public class RedisConfig {
 
     @Bean
     LettuceConnectionFactory connectionFactory() {
-        return new LettuceConnectionFactory();
+        RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration()
+                .master("mymaster")
+                .sentinel("127.0.0.1", 5000)
+                .sentinel("127.0.0.1", 5001)
+                .sentinel("127.0.0.1", 5002);
+        return new LettuceConnectionFactory(redisSentinelConfiguration);
     }
 
     @Bean
